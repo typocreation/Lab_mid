@@ -1,0 +1,39 @@
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
+namespace CarCommandParserApp
+{
+    public partial class MainForm : Form
+    {
+        public MainForm()
+        {
+            InitializeComponent();
+        }
+
+        private void btnCheckCommand_Click(object sender, EventArgs e)
+        {
+            string commandInput = txtCommand.Text;
+            string[] commands = commandInput.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string result = CheckCommandSequence(commands);
+            lblCommandResult.Text = result;
+        }
+
+        private string CheckCommandSequence(string[] commands)
+        {
+            HashSet<string> validActions = new HashSet<string>
+            {
+                "Start", "Stop", "Accelerate", "Brake", "Right"
+            };
+
+            foreach (string command in commands)
+            {
+                if (!validActions.Contains(command))
+                {
+                    return $"'{command}' is NOT a valid command. Left turn is not supported.";
+                }
+            }
+            return "The command sequence is valid.";
+        }
+    }
+}

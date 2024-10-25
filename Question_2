@@ -1,0 +1,43 @@
+sing System;
+using System.Text;
+using System.Windows.Forms;
+
+namespace PasswordGeneratorApp
+{
+    public partial class MainForm : Form
+    {
+        public MainForm()
+        {
+            InitializeComponent();
+        }
+
+        private void btnGeneratePassword_Click(object sender, EventArgs e)
+        {
+            string registrationNumber = txtRegistrationNumber.Text;
+            string firstName = txtFirstName.Text;
+            string lastName = txtLastName.Text;
+            string favouriteMovie = txtFavouriteMovie.Text;
+
+            string generatedPassword = GeneratePassword(registrationNumber, firstName, lastName, favouriteMovie);
+            lblGeneratedPassword.Text = generatedPassword;
+        }
+
+        private string GeneratePassword(string registrationNumber, string firstName, string lastName, string favouriteMovie)
+        {
+      
+            string digits = registrationNumber[2].ToString() + registrationNumber[3].ToString(); // 2 digits
+            string secondLetters = firstName[1].ToString() + lastName[1].ToString(); // Second letters
+            string movieChars = favouriteMovie[0].ToString() + favouriteMovie[1].ToString(); // First two characters
+            string specialChars = "!@#$%^&*()_+=-[]{}|;:,.<>?/"; // Possible special characters
+            Random rand = new Random();
+
+            
+            char specialChar1 = specialChars[rand.Next(specialChars.Length)];
+            char specialChar2 = specialChars[rand.Next(specialChars.Length)];
+
+            
+            string password = $"{digits}{secondLetters}{movieChars}{specialChar1}{specialChar2}";
+            return password;
+        }
+    }
+}
